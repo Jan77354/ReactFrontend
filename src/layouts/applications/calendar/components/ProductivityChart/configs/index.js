@@ -1,79 +1,105 @@
 /**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
+ =========================================================
+ * Material Dashboard 2 PRO React - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
+
+import { useRef, useState, useMemo, useEffect } from "react";
+
+// react-chartjs-2 components
+import "chart.js/auto";
+import { Chart } from "react-chartjs-2";
+
+// @mui material components
+import Card from "@mui/material/Card";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Icon from "@mui/material/Icon";
+
+// Material Dashboard 2 PRO React components
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
+
+// Chart configurations
+import configs from "layouts/applications/calendar/components/ProductivityChart/configs";
 
 // Material Dashboard 2 PRO React base styles
+import typography from "assets/theme/base/typography";
 import colors from "assets/theme/base/colors";
 
-const { white } = colors;
+function ProductivityChart() {
+  const { size } = typography;
+  const { dark } = colors;
+  const chartRef = useRef(null);
+  const [openMenu, setOpenMenu] = useState(null);
+  const [chart, setChart] = useState(configs(dark.main));
 
-function configs(backgroundColor) {
-  return {
-    data: {
-      labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      datasets: [
-        {
-          label: "Visitors",
-          tension: 0.5,
-          pointRadius: 0,
-          borderColor: white.main,
-          borderWidth: 2,
-          backgroundColor,
-          data: [50, 45, 60, 60, 80, 65, 90, 80, 100],
-          maxBarThickness: 6,
-          fill: true,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      interaction: {
-        intersect: false,
-        mode: "index",
-      },
-      scales: {
-        y: {
-          grid: {
-            drawBorder: false,
-            display: false,
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-          ticks: {
-            display: false,
-          },
-        },
-        x: {
-          grid: {
-            drawBorder: false,
-            display: false,
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-          ticks: {
-            display: false,
-          },
-        },
-      },
-    },
-  };
+  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+  const handleCloseMenu = () => setOpenMenu(null);
+
+  const renderMenu = () => (
+      <Menu
+          anchorEl={openMenu}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          open={Boolean(openMenu)}
+          onClose={handleCloseMenu}
+          keepMounted
+      >
+        <MenuItem onClick={handleCloseMenu}>Action</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>Another action</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>Something else here</MenuItem>
+      </Menu>
+  );
+
+  return (
+      <Card sx={{ overflow: "hidden" }}>
+        <MDBox bgColor="dark" variant="gradient">
+          <MDBox p={2}>
+            <MDBox display="flex" justifyContent="space-between">
+              <MDBox>
+                <MDTypography variant="h6" fontWeight="medium" color="white">
+                  Productivity
+                </MDTypography>
+                <MDBox display="flex" alignItems="center">
+                  <MDBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
+                    <Icon sx={{ fontWeight: "bold" }}>arrow_upward</Icon>
+                  </MDBox>
+                  <MDTypography variant="button" color="white" fontWeight="medium">
+                    4% more{" "}
+                    <MDTypography variant="button" color="white">
+                      in 2021
+                    </MDTypography>
+                  </MDTypography>
+                </MDBox>
+              </MDBox>
+              <MDTypography color="white" onClick={handleOpenMenu}>
+                <Icon fontSize="default" sx={{ cursor: "pointer" }}>
+                  more_horiz
+                </Icon>
+              </MDTypography>
+              {renderMenu()}
+            </MDBox>
+          </MDBox>
+          {useMemo(
+              () => (
+                  <MDBox ref={chartRef} sx={{ height: "6.25rem" }}>
+                    <Chart type="line" data={chart.data} options={chart.options} />
+                  </MDBox>
+              ),
+              [chart]
+          )}
+        </MDBox>
+      </Card>
+  );
 }
 
-export default configs;
+export default ProductivityChart;
