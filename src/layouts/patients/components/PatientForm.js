@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -11,7 +11,7 @@ import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 
-function PatientForm({ open, onClose, onSubmit }) {
+function PatientForm({ open, onClose, onSubmit, initialData = null }) {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -19,6 +19,29 @@ function PatientForm({ open, onClose, onSubmit }) {
         phone: "",
         dateOfBirth: ""
     });
+
+    // If initialData is provided, populate the form (for editing)
+    useEffect(() => {
+        if (initialData) {
+            const nameParts = initialData.name.split(" ");
+            setFormData({
+                firstName: nameParts[0] || "",
+                lastName: nameParts.slice(1).join(" ") || "",
+                email: initialData.email || "",
+                phone: initialData.phone || "",
+                dateOfBirth: initialData.dateOfBirth || ""
+            });
+        } else {
+            // Reset form when adding a new patient
+            setFormData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                dateOfBirth: ""
+            });
+        }
+    }, [initialData, open]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,14 +51,7 @@ function PatientForm({ open, onClose, onSubmit }) {
     const handleSubmit = () => {
         onSubmit({
             ...formData,
-            name: `${formData.firstName} ${formData.lastName}`
-        });
-        setFormData({
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            dateOfBirth: ""
+            name: `${formData.firstName} ${formData.lastName}`.trim()
         });
         onClose();
     };
@@ -44,7 +60,7 @@ function PatientForm({ open, onClose, onSubmit }) {
         <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
             <DialogTitle>
                 <MDTypography variant="h6" fontWeight="medium">
-                    Add New Patient
+                    {initialData ? "Edit Patient" : "Add New Patient"}
                 </MDTypography>
             </DialogTitle>
             <DialogContent>
@@ -106,7 +122,7 @@ function PatientForm({ open, onClose, onSubmit }) {
                     Cancel
                 </MDButton>
                 <MDButton color="info" onClick={handleSubmit}>
-                    Add Patient
+                    {initialData ? "Update Patient" : "Add Patient"}
                 </MDButton>
             </DialogActions>
         </Dialog>

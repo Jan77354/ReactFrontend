@@ -48,6 +48,8 @@ import SignInBasic from "layouts/authentication/sign-in/basic";
 import SignInCover from "layouts/authentication/sign-in/cover";
 import ResetCover from "layouts/authentication/reset-password/cover";
 import Patients from "layouts/patients";
+import PatientDetail from "layouts/patients/components/PatientDetail";
+import PatientEdit from "layouts/patients/components/PatientEdit";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNode } from "@fortawesome/free-brands-svg-icons";
@@ -199,6 +201,17 @@ const routes = [
                 component: <Settings />,
             },
         ],
+    },
+    // Patient detail and edit routes
+    {
+        key: "patient-view",
+        route: "/patients/:id/view",
+        component: <PatientDetail />,
+    },
+    {
+        key: "patient-edit",
+        route: "/patients/:id/edit",
+        component: <PatientEdit />,
     },
     // Authentication routes
     {
