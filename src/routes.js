@@ -35,22 +35,8 @@
  10. The `component` key is used to store the component of its route.
  */
 
-/**
- =========================================================
- * Material Dashboard 2 PRO React - v2.1.0
- =========================================================
-
- * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
- * Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
- Coded by www.creative-tim.com
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- */
-
 // Material Dashboard 2 PRO React layouts
+
 import Analytics from "layouts/dashboards/analytics";
 import Sales from "layouts/dashboards/sales";
 import ProfileOverview from "layouts/pages/profile/profile-overview";
@@ -61,6 +47,7 @@ import Calendar from "layouts/applications/calendar";
 import SignInBasic from "layouts/authentication/sign-in/basic";
 import SignInCover from "layouts/authentication/sign-in/cover";
 import ResetCover from "layouts/authentication/reset-password/cover";
+import Patients from "layouts/patients";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNode } from "@fortawesome/free-brands-svg-icons";
@@ -70,8 +57,6 @@ import UserProfile from "cruds/user-profile";
 // Material Dashboard 2 PRO React components
 import MDAvatar from "components/MDAvatar";
 
-import Patients from "layouts/patients";
-import PatientFormPage from "layouts/patients/patient-form";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -214,17 +199,6 @@ const routes = [
                 component: <Settings />,
             },
         ],
-    },
-    // Hidden routes for patient form
-    {
-        key: "patient-new",
-        route: "/patients/new",
-        component: <PatientFormPage />,
-    },
-    {
-        key: "patient-edit-view",
-        route: "/patients/:id/:action",
-        component: <PatientFormPage />,
     },
     // Authentication routes
     {

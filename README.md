@@ -160,7 +160,7 @@ These credentials are for users with different roles so they have different acce
 
 Authentication context and protected routes were used to keep track of the state of the users and their permissions. Axios together with an HTTP service and helped by an auth service and crud service handled the requests. The **/src/service** keeps the logic of the services while **/src/context** has the logic for the different contexts used, including the authentication context.
 
-In the **/src/auth/login/index.js** is the logic for logging in an existing user:
+In the **/src/auth/login/PatientIntakeWizard.js** is the logic for logging in an existing user:
 
 ```
     try {
@@ -179,7 +179,7 @@ In the **/src/auth/login/index.js** is the logic for logging in an existing user
 
 It can be added a new user by registration. The user has a name, email, password and the confirmation of the password that needs to be added. All the inputs are verified and validated. You can simply access the page with the **Sign up** button or adding **/register** in the url. The new user will get the role of an admin by default and it can be changed in the user-management if you want to restrict its permissions.
 
-In the **/src/auth/register/index.js** is the logic for signing up a new user:
+In the **/src/auth/register/PatientIntakeWizard.js** is the logic for signing up a new user:
 
 ```
     const response = await AuthService.register(myData);
@@ -191,7 +191,7 @@ In the **/src/auth/register/index.js** is the logic for signing up a new user:
 
 In case of forgetting its password, the user can go to a page where he adds the email of the account and an email will be send to that address to help with resetting the password. It can be accessed from the Login page by clicking the **here** button or by adding **/forgot-password**.
 
-In the **/src/auth/forgot-password/index.js** is the logic for requesting a password reset:
+In the **/src/auth/forgot-password/PatientIntakeWizard.js** is the logic for requesting a password reset:
 
 ```
     const myData = {
@@ -216,7 +216,7 @@ In the **/src/auth/forgot-password/index.js** is the logic for requesting a pass
 
 For resetting the password, the user must acceess the url sent int the email. By adding the new password and the confirmation and then pressing the **channge** button the data of the account is updated. You can go back to login from the button in notification.
 
-In the **/src/auth/reset-password/index.js** is the logic for resetting the password:
+In the **/src/auth/reset-password/PatientIntakeWizard.js** is the logic for resetting the password:
 
 ```
   useEffect(() => {
@@ -495,7 +495,7 @@ Within the download you'll find the following directories and files:
 │   │   │   ├── breadcrumbs.js
 │   │   │   ├── button
 │   │   │   │   ├── contained.js
-│   │   │   │   ├── index.js
+│   │   │   │   ├── PatientIntakeWizard.js
 │   │   │   │   ├── outlined.js
 │   │   │   │   ├── root.js
 │   │   │   │   └── text.js
@@ -503,14 +503,14 @@ Within the download you'll find the following directories and files:
 │   │   │   ├── card
 │   │   │   │   ├── cardContent.js
 │   │   │   │   ├── cardMedia.js
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── container.js
 │   │   │   ├── dialog
 │   │   │   │   ├── dialogActions.js
 │   │   │   │   ├── dialogContent.js
 │   │   │   │   ├── dialogContentText.js
 │   │   │   │   ├── dialogTitle.js
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── divider.js
 │   │   │   ├── flatpickr.js
 │   │   │   ├── form
@@ -530,17 +530,17 @@ Within the download you'll find the following directories and files:
 │   │   │   ├── linearProgress.js
 │   │   │   ├── link.js
 │   │   │   ├── list
-│   │   │   │   ├── index.js
+│   │   │   │   ├── PatientIntakeWizard.js
 │   │   │   │   ├── listItem.js
 │   │   │   │   └── listItemText.js
 │   │   │   ├── menu
-│   │   │   │   ├── index.js
+│   │   │   │   ├── PatientIntakeWizard.js
 │   │   │   │   └── menuItem.js
 │   │   │   ├── popover.js
 │   │   │   ├── sidenav.js
 │   │   │   ├── slider.js
 │   │   │   ├── stepper
-│   │   │   │   ├── index.js
+│   │   │   │   ├── PatientIntakeWizard.js
 │   │   │   │   ├── stepConnector.js
 │   │   │   │   ├── stepIcon.js
 │   │   │   │   ├── step.js
@@ -551,7 +551,7 @@ Within the download you'll find the following directories and files:
 │   │   │   │   ├── tableContainer.js
 │   │   │   │   └── tableHead.js
 │   │   │   ├── tabs
-│   │   │   │   ├── index.js
+│   │   │   │   ├── PatientIntakeWizard.js
 │   │   │   │   └── tab.js
 │   │   │   └── tooltip.js
 │   │   ├── functions
@@ -561,7 +561,7 @@ Within the download you'll find the following directories and files:
 │   │   │   ├── linearGradient.js
 │   │   │   ├── pxToRem.js
 │   │   │   └── rgba.js
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── theme-rtl.js
 │   └── theme-dark
 │       ├── base
@@ -577,7 +577,7 @@ Within the download you'll find the following directories and files:
 │       │   ├── breadcrumbs.js
 │       │   ├── button
 │       │   │   ├── contained.js
-│       │   │   ├── index.js
+│       │   │   ├── PatientIntakeWizard.js
 │       │   │   ├── outlined.js
 │       │   │   ├── root.js
 │       │   │   └── text.js
@@ -585,14 +585,14 @@ Within the download you'll find the following directories and files:
 │       │   ├── card
 │       │   │   ├── cardContent.js
 │       │   │   ├── cardMedia.js
-│       │   │   └── index.js
+│       │   │   └── PatientIntakeWizard.js
 │       │   ├── container.js
 │       │   ├── dialog
 │       │   │   ├── dialogActions.js
 │       │   │   ├── dialogContent.js
 │       │   │   ├── dialogContentText.js
 │       │   │   ├── dialogTitle.js
-│       │   │   └── index.js
+│       │   │   └── PatientIntakeWizard.js
 │       │   ├── divider.js
 │       │   ├── flatpickr.js
 │       │   ├── form
@@ -612,17 +612,17 @@ Within the download you'll find the following directories and files:
 │       │   ├── linearProgress.js
 │       │   ├── link.js
 │       │   ├── list
-│       │   │   ├── index.js
+│       │   │   ├── PatientIntakeWizard.js
 │       │   │   ├── listItem.js
 │       │   │   └── listItemText.js
 │       │   ├── menu
-│       │   │   ├── index.js
+│       │   │   ├── PatientIntakeWizard.js
 │       │   │   └── menuItem.js
 │       │   ├── popover.js
 │       │   ├── sidenav.js
 │       │   ├── slider.js
 │       │   ├── stepper
-│       │   │   ├── index.js
+│       │   │   ├── PatientIntakeWizard.js
 │       │   │   ├── stepConnector.js
 │       │   │   ├── stepIcon.js
 │       │   │   ├── step.js
@@ -633,7 +633,7 @@ Within the download you'll find the following directories and files:
 │       │   │   ├── tableContainer.js
 │       │   │   └── tableHead.js
 │       │   ├── tabs
-│       │   │   ├── index.js
+│       │   │   ├── PatientIntakeWizard.js
 │       │   │   └── tab.js
 │       │   └── tooltip.js
 │       ├── functions
@@ -643,240 +643,240 @@ Within the download you'll find the following directories and files:
 │       │   ├── linearGradient.js
 │       │   ├── pxToRem.js
 │       │   └── rgba.js
-│       ├── index.js
+│       ├── PatientIntakeWizard.js
 │       └── theme-rtl.js
 ├── auth
 │   ├── forgot-password
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── login
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── logout
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── register
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   └── reset-password
-│       └── index.js
+│       └── PatientIntakeWizard.js
 ├── Can.js
 ├── components
 │   ├── MDAlert
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   ├── MDAlertCloseIcon.js
 │   │   └── MDAlertRoot.js
 │   ├── MDAvatar
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDAvatarRoot.js
 │   ├── MDBadge
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDBadgeRoot.js
 │   ├── MDBadgeDot
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── MDBox
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDBoxRoot.js
 │   ├── MDButton
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDButtonRoot.js
 │   ├── MDDatePicker
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── MDDropzone
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDDropzoneRoot.js
 │   ├── MDEditor
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDEditorRoot.js
 │   ├── MDInput
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDInputRoot.js
 │   ├── MDPagination
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDPaginationItemRoot.js
 │   ├── MDProgress
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDProgressRoot.js
 │   ├── MDSnackbar
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDSnackbarIconRoot.js
 │   ├── MDSocialButton
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── MDSocialButtonRoot.js
 │   └── MDTypography
-│       ├── index.js
+│       ├── PatientIntakeWizard.js
 │       └── MDTypographyRoot.js
 ├── config
 │   └── Permissions
-│       └── index.js
+│       └── PatientIntakeWizard.js
 ├── context
-│   └── index.js
+│   └── PatientIntakeWizard.js
 ├── crud.routes.js
 ├── cruds
 │   ├── category-management
 │   │   ├── edit-category
-│   │   │   └── index.js
-│   │   ├── index.js
+│   │   │   └── PatientIntakeWizard.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── new-category
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── item-management
 │   │   ├── edit-item
-│   │   │   └── index.js
-│   │   ├── index.js
+│   │   │   └── PatientIntakeWizard.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── new-item
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── role-managament
 │   │   ├── edit-role
-│   │   │   └── index.js
-│   │   ├── index.js
+│   │   │   └── PatientIntakeWizard.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── new-role
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── tag-management
 │   │   ├── edit-tag
-│   │   │   └── index.js
-│   │   ├── index.js
+│   │   │   └── PatientIntakeWizard.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── new-tag
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── user-management
 │   │   ├── edit-user
-│   │   │   └── index.js
-│   │   ├── index.js
+│   │   │   └── PatientIntakeWizard.js
+│   │   ├── PatientIntakeWizard.js
 │   │   └── new-user
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   └── user-profile
 │       ├── components
 │       │   ├── BasicInfo
-│       │   │   └── index.js
+│       │   │   └── PatientIntakeWizard.js
 │       │   ├── ChangePassword
-│       │   │   └── index.js
+│       │   │   └── PatientIntakeWizard.js
 │       │   └── Header
-│       │       └── index.js
-│       └── index.js
+│       │       └── PatientIntakeWizard.js
+│       └── PatientIntakeWizard.js
 ├── examples
 │   ├── Breadcrumbs
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── Calendar
 │   │   ├── CalendarRoot.js
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── Cards
 │   │   ├── BlogCards
 │   │   │   └── SimpleBlogCard
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── BookingCard
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── ControllerCard
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── InfoCards
 │   │   │   ├── DefaultInfoCard
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── MiniInfoCard
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   └── ProfileInfoCard
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── MasterCard
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── PricingCards
 │   │   │   └── DefaultPricingCard
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── ProjectCards
 │   │   │   ├── ComplexProjectCard
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   └── DefaultProjectCard
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   └── StatisticsCards
 │   │       ├── ComplexStatisticsCard
-│   │       │   └── index.js
+│   │       │   └── PatientIntakeWizard.js
 │   │       ├── DefaultStatisticsCard
-│   │       │   └── index.js
+│   │       │   └── PatientIntakeWizard.js
 │   │       └── MiniStatisticsCard
-│   │           └── index.js
+│   │           └── PatientIntakeWizard.js
 │   ├── Charts
 │   │   ├── BarCharts
 │   │   │   ├── HorizontalBarChart
 │   │   │   │   ├── configs
-│   │   │   │   │   └── index.js
-│   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── ReportsBarChart
 │   │   │   │   ├── configs
-│   │   │   │   │   └── index.js
-│   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   └── VerticalBarChart
 │   │   │       ├── configs
-│   │   │       │   └── index.js
-│   │   │       └── index.js
+│   │   │       │   └── PatientIntakeWizard.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── BubbleChart
 │   │   │   ├── configs
-│   │   │   │   └── index.js
-│   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── DoughnutCharts
 │   │   │   └── DefaultDoughnutChart
 │   │   │       ├── configs
-│   │   │       │   └── index.js
-│   │   │       └── index.js
+│   │   │       │   └── PatientIntakeWizard.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── LineCharts
 │   │   │   ├── DefaultLineChart
 │   │   │   │   ├── configs
-│   │   │   │   │   └── index.js
-│   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── GradientLineChart
 │   │   │   │   ├── configs
-│   │   │   │   │   └── index.js
-│   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── ProgressLineChart
 │   │   │   │   ├── config
-│   │   │   │   │   └── index.js
-│   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   └── ReportsLineChart
 │   │   │       ├── configs
-│   │   │       │   └── index.js
-│   │   │       └── index.js
+│   │   │       │   └── PatientIntakeWizard.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── MixedChart
 │   │   │   ├── configs
-│   │   │   │   └── index.js
-│   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── PieChart
 │   │   │   ├── configs
-│   │   │   │   └── index.js
-│   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── PolarChart
 │   │   │   ├── configs
-│   │   │   │   └── index.js
-│   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   └── RadarChart
 │   │       ├── configs
-│   │       │   └── index.js
-│   │       └── index.js
+│   │       │   └── PatientIntakeWizard.js
+│   │       └── PatientIntakeWizard.js
 │   ├── Configurator
 │   │   ├── ConfiguratorRoot.js
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── Footer
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── Items
 │   │   ├── DefaultItem
-│   │   │   ├── index.js
+│   │   │   ├── PatientIntakeWizard.js
 │   │   │   └── styles.js
 │   │   └── NotificationItem
-│   │       ├── index.js
+│   │       ├── PatientIntakeWizard.js
 │   │       └── styles.js
 │   ├── LayoutContainers
 │   │   ├── DashboardLayout
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   └── PageLayout
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── Lists
 │   │   ├── CategoriesList
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   └── ProfilesList
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── Navbars
 │   │   ├── DashboardNavbar
-│   │   │   ├── index.js
+│   │   │   ├── PatientIntakeWizard.js
 │   │   │   └── styles.js
 │   │   └── DefaultNavbar
 │   │       ├── DefaultNavbarDropdown.js
 │   │       ├── DefaultNavbarLink.js
 │   │       ├── DefaultNavbarMobile.js
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── ProtectedRoute
-│   │   └── index.js
+│   │   └── PatientIntakeWizard.js
 │   ├── Sidenav
-│   │   ├── index.js
+│   │   ├── PatientIntakeWizard.js
 │   │   ├── SidenavCollapse.js
 │   │   ├── SidenavItem.js
 │   │   ├── SidenavList.js
@@ -889,233 +889,233 @@ Within the download you'll find the following directories and files:
 │   │   ├── DataTable
 │   │   │   ├── DataTableBodyCell.js
 │   │   │   ├── DataTableHeadCell.js
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   └── SalesTable
-│   │       ├── index.js
+│   │       ├── PatientIntakeWizard.js
 │   │       └── SalesTableCell.js
 │   └── Timeline
 │       ├── context
-│       │   └── index.js
+│       │   └── PatientIntakeWizard.js
 │       ├── TimelineItem
-│       │   ├── index.js
+│       │   ├── PatientIntakeWizard.js
 │       │   └── styles.js
 │       └── TimelineList
-│           └── index.js
-├── index.js
+│           └── PatientIntakeWizard.js
+├── PatientIntakeWizard.js
 ├── layouts
 │   ├── applications
 │   │   ├── calendar
 │   │   │   ├── components
 │   │   │   │   ├── Header
-│   │   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   ├── NextEvents
-│   │   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   └── ProductivityChart
 │   │   │   │       ├── configs
-│   │   │   │       │   └── index.js
-│   │   │   │       └── index.js
+│   │   │   │       │   └── PatientIntakeWizard.js
+│   │   │   │       └── PatientIntakeWizard.js
 │   │   │   ├── data
 │   │   │   │   └── calendarEventsData.js
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── data-tables
 │   │   │   ├── data
 │   │   │   │   └── dataTableData.js
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   ├── kanban
 │   │   │   ├── components
 │   │   │   │   ├── Card
-│   │   │   │   │   └── index.js
+│   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   └── Header
-│   │   │   │       └── index.js
+│   │   │   │       └── PatientIntakeWizard.js
 │   │   │   ├── data
-│   │   │   │   └── index.js
-│   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   └── wizard
 │   │       ├── components
 │   │       │   ├── About
-│   │       │   │   └── index.js
+│   │       │   │   └── PatientIntakeWizard.js
 │   │       │   ├── Account
-│   │       │   │   └── index.js
+│   │       │   │   └── PatientIntakeWizard.js
 │   │       │   ├── Address
-│   │       │   │   └── index.js
+│   │       │   │   └── PatientIntakeWizard.js
 │   │       │   └── FormField
-│   │       │       └── index.js
-│   │       └── index.js
+│   │       │       └── PatientIntakeWizard.js
+│   │       └── PatientIntakeWizard.js
 │   ├── authentication
 │   │   ├── components
 │   │   │   ├── BasicLayout
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── CoverLayout
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── Footer
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   └── IllustrationLayout
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── reset-password
 │   │   │   └── cover
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   ├── sign-in
 │   │   │   ├── basic
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   ├── cover
-│   │   │   │   └── index.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   └── illustration
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   └── sign-up
 │   │       └── cover
-│   │           └── index.js
+│   │           └── PatientIntakeWizard.js
 │   ├── dashboards
 │   │   ├── analytics
 │   │   │   ├── components
 │   │   │   │   └── SalesByCountry
 │   │   │   │       ├── data
 │   │   │   │       │   └── salesTableData.js
-│   │   │   │       └── index.js
+│   │   │   │       └── PatientIntakeWizard.js
 │   │   │   ├── data
 │   │   │   │   ├── reportsBarChartData.js
 │   │   │   │   └── reportsLineChartData.js
-│   │   │   └── index.js
+│   │   │   └── PatientIntakeWizard.js
 │   │   └── sales
 │   │       ├── components
 │   │       │   ├── ChannelsChart
 │   │       │   │   ├── data
-│   │       │   │   │   └── index.js
-│   │       │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
+│   │       │   │   └── PatientIntakeWizard.js
 │   │       │   ├── DefaultCell
-│   │       │   │   └── index.js
+│   │       │   │   └── PatientIntakeWizard.js
 │   │       │   ├── ProductCell
-│   │       │   │   └── index.js
+│   │       │   │   └── PatientIntakeWizard.js
 │   │       │   └── RefundsCell
-│   │       │       └── index.js
+│   │       │       └── PatientIntakeWizard.js
 │   │       ├── data
 │   │       │   ├── dataTableData.js
 │   │       │   ├── defaultLineChartData.js
 │   │       │   ├── horizontalBarChartData.js
 │   │       │   └── salesTableData.js
-│   │       └── index.js
+│   │       └── PatientIntakeWizard.js
 │   ├── ecommerce
 │   │   ├── orders
 │   │   │   ├── order-details
 │   │   │   │   ├── components
 │   │   │   │   │   ├── BillingInformation
-│   │   │   │   │   │   └── index.js
+│   │   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   │   ├── Header
-│   │   │   │   │   │   └── index.js
+│   │   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   │   ├── OrderInfo
-│   │   │   │   │   │   └── index.js
+│   │   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   │   ├── OrderSummary
-│   │   │   │   │   │   └── index.js
+│   │   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   │   ├── PaymentDetails
-│   │   │   │   │   │   └── index.js
+│   │   │   │   │   │   └── PatientIntakeWizard.js
 │   │   │   │   │   └── TrackOrder
-│   │   │   │   │       └── index.js
-│   │   │   │   └── index.js
+│   │   │   │   │       └── PatientIntakeWizard.js
+│   │   │   │   └── PatientIntakeWizard.js
 │   │   │   └── order-list
 │   │   │       ├── components
 │   │   │       │   ├── CustomerCell
-│   │   │       │   │   └── index.js
+│   │   │       │   │   └── PatientIntakeWizard.js
 │   │   │       │   ├── DefaultCell
-│   │   │       │   │   └── index.js
+│   │   │       │   │   └── PatientIntakeWizard.js
 │   │   │       │   ├── IdCell
-│   │   │       │   │   └── index.js
+│   │   │       │   │   └── PatientIntakeWizard.js
 │   │   │       │   └── StatusCell
-│   │   │       │       └── index.js
+│   │   │       │       └── PatientIntakeWizard.js
 │   │   │       ├── data
 │   │   │       │   └── dataTableData.js
-│   │   │       └── index.js
+│   │   │       └── PatientIntakeWizard.js
 │   │   └── products
 │   │       ├── edit-product
 │   │       │   ├── components
 │   │       │   │   ├── FormField
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   ├── Pricing
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   ├── ProductImage
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   ├── ProductInfo
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   └── Socials
-│   │       │   │       └── index.js
-│   │       │   └── index.js
+│   │       │   │       └── PatientIntakeWizard.js
+│   │       │   └── PatientIntakeWizard.js
 │   │       ├── new-product
 │   │       │   ├── components
 │   │       │   │   ├── FormField
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   ├── Media
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   ├── Pricing
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   ├── ProductInfo
-│   │       │   │   │   └── index.js
+│   │       │   │   │   └── PatientIntakeWizard.js
 │   │       │   │   └── Socials
-│   │       │   │       └── index.js
-│   │       │   └── index.js
+│   │       │   │       └── PatientIntakeWizard.js
+│   │       │   └── PatientIntakeWizard.js
 │   │       └── product-page
 │   │           ├── components
 │   │           │   ├── DefaultCell
-│   │           │   │   └── index.js
+│   │           │   │   └── PatientIntakeWizard.js
 │   │           │   ├── ProductCell
-│   │           │   │   └── index.js
+│   │           │   │   └── PatientIntakeWizard.js
 │   │           │   ├── ProductImages
-│   │           │   │   └── index.js
+│   │           │   │   └── PatientIntakeWizard.js
 │   │           │   ├── ProductInfo
-│   │           │   │   └── index.js
+│   │           │   │   └── PatientIntakeWizard.js
 │   │           │   └── ReviewCell
-│   │           │       └── index.js
+│   │           │       └── PatientIntakeWizard.js
 │   │           ├── data
 │   │           │   └── dataTableData.js
-│   │           └── index.js
+│   │           └── PatientIntakeWizard.js
 │   └── pages
 │       ├── account
 │       │   ├── billing
 │       │   │   ├── components
 │       │   │   │   ├── Bill
-│       │   │   │   │   └── index.js
+│       │   │   │   │   └── PatientIntakeWizard.js
 │       │   │   │   ├── BillingInformation
-│       │   │   │   │   └── index.js
+│       │   │   │   │   └── PatientIntakeWizard.js
 │       │   │   │   ├── Invoice
-│       │   │   │   │   └── index.js
+│       │   │   │   │   └── PatientIntakeWizard.js
 │       │   │   │   ├── Invoices
-│       │   │   │   │   └── index.js
+│       │   │   │   │   └── PatientIntakeWizard.js
 │       │   │   │   ├── PaymentMethod
-│       │   │   │   │   └── index.js
+│       │   │   │   │   └── PatientIntakeWizard.js
 │       │   │   │   ├── Transaction
-│       │   │   │   │   └── index.js
+│       │   │   │   │   └── PatientIntakeWizard.js
 │       │   │   │   └── Transactions
-│       │   │   │       └── index.js
-│       │   │   └── index.js
+│       │   │   │       └── PatientIntakeWizard.js
+│       │   │   └── PatientIntakeWizard.js
 │       │   ├── components
 │       │   │   ├── BaseLayout
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   └── FormField
-│       │   │       └── index.js
+│       │   │       └── PatientIntakeWizard.js
 │       │   ├── invoice
-│       │   │   └── index.js
+│       │   │   └── PatientIntakeWizard.js
 │       │   └── settings
 │       │       ├── components
 │       │       │   ├── Accounts
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── Authentication
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── BasicInfo
 │       │       │   │   ├── data
 │       │       │   │   │   └── selectData.js
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── ChangePassword
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── DeleteAccount
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── Header
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── Notifications
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── Sessions
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── Sidenav
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   └── TableCell
-│       │       │       └── index.js
-│       │       └── index.js
+│       │       │       └── PatientIntakeWizard.js
+│       │       └── PatientIntakeWizard.js
 │       ├── charts
 │       │   ├── data
 │       │   │   ├── bubbleChartData.js
@@ -1128,78 +1128,78 @@ Within the download you'll find the following directories and files:
 │       │   │   ├── polarChartData.js
 │       │   │   ├── radarChartData.js
 │       │   │   └── verticalBarChartData.js
-│       │   └── index.js
+│       │   └── PatientIntakeWizard.js
 │       ├── notifications
-│       │   └── index.js
+│       │   └── PatientIntakeWizard.js
 │       ├── pricing-page
 │       │   ├── components
 │       │   │   ├── Faq
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── FaqCollapse
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── Footer
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── Header
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── PricingCards
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   └── TrustedBrands
-│       │   │       └── index.js
-│       │   └── index.js
+│       │   │       └── PatientIntakeWizard.js
+│       │   └── PatientIntakeWizard.js
 │       ├── profile
 │       │   ├── all-projects
-│       │   │   └── index.js
+│       │   │   └── PatientIntakeWizard.js
 │       │   ├── components
 │       │   │   └── Header
-│       │   │       └── index.js
+│       │   │       └── PatientIntakeWizard.js
 │       │   └── profile-overview
 │       │       ├── components
 │       │       │   └── PlatformSettings
-│       │       │       └── index.js
+│       │       │       └── PatientIntakeWizard.js
 │       │       ├── data
 │       │       │   └── profilesListData.js
-│       │       └── index.js
+│       │       └── PatientIntakeWizard.js
 │       ├── projects
 │       │   └── timeline
 │       │       ├── data
 │       │       │   └── timelineData.js
-│       │       └── index.js
+│       │       └── PatientIntakeWizard.js
 │       ├── rtl
 │       │   ├── components
 │       │   │   ├── Chart
 │       │   │   │   ├── configs
-│       │   │   │   │   └── index.js
-│       │   │   │   └── index.js
+│       │   │   │   │   └── PatientIntakeWizard.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── FullBody
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── MediaPlayer
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── OrdersOverview
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   ├── Steps
-│       │   │   │   └── index.js
+│       │   │   │   └── PatientIntakeWizard.js
 │       │   │   └── UpcomingEvents
-│       │   │       └── index.js
+│       │   │       └── PatientIntakeWizard.js
 │       │   ├── data
 │       │   │   ├── calendarEventsData.js
 │       │   │   ├── caloriesChartData.js
 │       │   │   ├── categoriesListData.js
 │       │   │   └── progressLineChartData.js
-│       │   └── index.js
+│       │   └── PatientIntakeWizard.js
 │       ├── users
 │       │   └── new-user
 │       │       ├── components
 │       │       │   ├── Address
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── FormField
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── Profile
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   ├── Socials
-│       │       │   │   └── index.js
+│       │       │   │   └── PatientIntakeWizard.js
 │       │       │   └── UserInfo
-│       │       │       └── index.js
-│       │       ├── index.js
+│       │       │       └── PatientIntakeWizard.js
+│       │       ├── PatientIntakeWizard.js
 │       │       └── schemas
 │       │           ├── form.js
 │       │           ├── initialValues.js
@@ -1208,24 +1208,24 @@ Within the download you'll find the following directories and files:
 │           ├── components
 │           │   ├── Chart
 │           │   │   ├── configs
-│           │   │   │   └── index.js
-│           │   │   └── index.js
+│           │   │   │   └── PatientIntakeWizard.js
+│           │   │   └── PatientIntakeWizard.js
 │           │   ├── FullBody
-│           │   │   └── index.js
+│           │   │   └── PatientIntakeWizard.js
 │           │   ├── MediaPlayer
-│           │   │   └── index.js
+│           │   │   └── PatientIntakeWizard.js
 │           │   ├── OrdersOverview
-│           │   │   └── index.js
+│           │   │   └── PatientIntakeWizard.js
 │           │   ├── Steps
-│           │   │   └── index.js
+│           │   │   └── PatientIntakeWizard.js
 │           │   └── UpcomingEvents
-│           │       └── index.js
+│           │       └── PatientIntakeWizard.js
 │           ├── data
 │           │   ├── calendarEventsData.js
 │           │   ├── caloriesChartData.js
 │           │   ├── categoriesListData.js
 │           │   └── progressLineChartData.js
-│           └── index.js
+│           └── PatientIntakeWizard.js
 ├── page.routes.js
 ├── routes.js
 └── services
