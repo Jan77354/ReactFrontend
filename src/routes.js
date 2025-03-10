@@ -36,7 +36,6 @@
  */
 
 // Material Dashboard 2 PRO React layouts
-
 import Analytics from "layouts/dashboards/analytics";
 import Sales from "layouts/dashboards/sales";
 import ProfileOverview from "layouts/pages/profile/profile-overview";
@@ -51,6 +50,11 @@ import Patients from "layouts/patients";
 import PatientDetail from "layouts/patients/components/PatientDetail";
 import PatientEdit from "layouts/patients/components/PatientEdit";
 
+// New Imports for Messages, Emails, and Notifications
+import Messages from "layouts/communications/messages";
+import Emails from "layouts/communications/emails";
+import Notifications from "layouts/communications/notifications";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNode } from "@fortawesome/free-brands-svg-icons";
 
@@ -58,7 +62,6 @@ import UserProfile from "cruds/user-profile";
 
 // Material Dashboard 2 PRO React components
 import MDAvatar from "components/MDAvatar";
-
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -111,7 +114,7 @@ const routes = [
         name: "Patients",
         key: "patients",
         icon: <Icon fontSize="medium">people</Icon>,
-        noCollapse: true, // This prevents showing a dropdown arrow
+        noCollapse: true,
         route: "/patients",
         component: <Patients />,
     },
@@ -125,25 +128,52 @@ const routes = [
                 name: "Trier",
                 key: "trier-clinic",
                 route: "/clinics/trier",
-                component: null, // Replace with actual Trier clinic component
+                component: null,
             },
             {
                 name: "Ramstein",
                 key: "ramstein-clinic",
                 route: "/clinics/ramstein",
-                component: null, // Replace with actual Ramstein clinic component
+                component: null,
             },
             {
                 name: "Wittlich",
                 key: "wittlich-clinic",
                 route: "/clinics/wittlich",
-                component: null, // Replace with actual Wittlich clinic component
+                component: null,
             },
             {
                 name: "Wiesbaden",
                 key: "wiesbaden-clinic",
                 route: "/clinics/wiesbaden",
-                component: null, // Replace with actual Wiesbaden clinic component
+                component: null,
+            },
+        ],
+    },
+    // New section for Communications
+    {
+        type: "collapse",
+        name: "Communications",
+        key: "communications",
+        icon: <Icon fontSize="medium">chat</Icon>,
+        collapse: [
+            {
+                name: "Messages",
+                key: "messages",
+                route: "/communications/messages",
+                component: <Messages />,
+            },
+            {
+                name: "Emails",
+                key: "emails",
+                route: "/communications/emails",
+                component: <Emails />,
+            },
+            {
+                name: "Notifications",
+                key: "notifications",
+                route: "/communications/notifications",
+                component: <Notifications />,
             },
         ],
     },
@@ -168,12 +198,12 @@ const routes = [
         ],
     },
     {
-        type: "collapse", // Changing this to "collapse"
+        type: "collapse",
         name: "Calendar",
         key: "calendar",
         route: "/applications/calendar",
         icon: <Icon fontSize="medium">calendar_month</Icon>,
-        noCollapse: true, // This prevents showing a dropdown arrow
+        noCollapse: true,
         component: <Calendar />,
     },
     {
