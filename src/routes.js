@@ -48,7 +48,6 @@ import SignInCover from "layouts/authentication/sign-in/cover";
 import ResetCover from "layouts/authentication/reset-password/cover";
 import Patients from "layouts/patients";
 import PatientDetail from "layouts/patients/components/PatientDetail";
-import PatientEdit from "layouts/patients/components/PatientEdit";
 
 // New Imports for Messages, Emails, and Notifications
 import Messages from "layouts/communications/messages";
@@ -237,11 +236,6 @@ const routes = [
         key: "patient-view",
         route: "/patients/:id/view",
         component: <PatientDetail />,
-    },
-    {
-        key: "patient-edit",
-        route: "/patients/:id/edit",
-        component: <PatientEdit />,
     },
     // Authentication routes
     {

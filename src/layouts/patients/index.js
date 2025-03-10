@@ -1,10 +1,9 @@
-// Update the patients file to include unique IDs for each patient and working action buttons
-
 import { useState, useEffect } from "react";
-import { Card } from "@mui/material";
+import { Card, Fade } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import MDAlert from "components/MDAlert";
 import Icon from "@mui/material/Icon";
 import { Link, useNavigate } from "react-router-dom";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -16,6 +15,11 @@ import PatientForm from "./components/PatientForm";
 function Patients() {
     const navigate = useNavigate();
     const [openDialog, setOpenDialog] = useState(false);
+    const [alertInfo, setAlertInfo] = useState({
+        open: false,
+        message: "",
+        color: "info"
+    });
     const [tableData, setTableData] = useState({
         columns: [
             { Header: "Name", accessor: "name", width: "25%" },
@@ -28,6 +32,10 @@ function Patients() {
     });
 
     useEffect(() => {
+        loadPatientData();
+    }, []);
+
+    const loadPatientData = () => {
         // Load patients from localStorage on component mount
         const storedPatients = JSON.parse(localStorage.getItem("patients") || "[]");
 
@@ -53,7 +61,10 @@ function Patients() {
                         color="warning"
                         size="small"
                         iconOnly
-                        onClick={() => handleEditPatient(patient.id)}
+                        onClick={() => handleViewPatient(patient.id)}
+                        sx={{
+                            color: "#f29f66" // Custom color to match our scheme
+                        }}
                     >
                         <Icon>edit</Icon>
                     </MDButton>
@@ -71,7 +82,7 @@ function Patients() {
         }));
 
         setTableData(prev => ({ ...prev, rows }));
-    }, []);
+    };
 
     const handleAddPatient = () => {
         setOpenDialog(true);
@@ -95,57 +106,23 @@ function Patients() {
         const storedPatients = JSON.parse(localStorage.getItem("patients") || "[]");
         localStorage.setItem("patients", JSON.stringify([...storedPatients, patientWithId]));
 
-        // Update the table data
-        const newRow = {
-            name: newPatient.name,
-            email: newPatient.email,
-            phone: newPatient.phone,
-            dateOfBirth: newPatient.dateOfBirth,
-            actions: (
-                <MDBox display="flex" justifyContent="center">
-                    <MDButton
-                        variant="text"
-                        color="info"
-                        size="small"
-                        iconOnly
-                        onClick={() => handleViewPatient(patientId)}
-                    >
-                        <Icon>visibility</Icon>
-                    </MDButton>
-                    <MDButton
-                        variant="text"
-                        color="warning"
-                        size="small"
-                        iconOnly
-                        onClick={() => handleEditPatient(patientId)}
-                    >
-                        <Icon>edit</Icon>
-                    </MDButton>
-                    <MDButton
-                        variant="text"
-                        color="error"
-                        size="small"
-                        iconOnly
-                        onClick={() => handleDeletePatient(patientId)}
-                    >
-                        <Icon>delete</Icon>
-                    </MDButton>
-                </MDBox>
-            ),
-        };
+        // Reload patient data
+        loadPatientData();
 
-        setTableData(prev => ({
-            ...prev,
-            rows: [...prev.rows, newRow]
-        }));
+        // Close dialog
+        handleCloseDialog();
+
+        // Show success alert
+        setAlertInfo({
+            open: true,
+            message: "Patient added successfully",
+            color: "success"
+        });
+        setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
     };
 
     const handleViewPatient = (id) => {
         navigate(`/patients/${id}/view`);
-    };
-
-    const handleEditPatient = (id) => {
-        navigate(`/patients/${id}/edit`);
     };
 
     const handleDeletePatient = (id) => {
@@ -155,22 +132,32 @@ function Patients() {
             const updatedPatients = storedPatients.filter(p => p.id !== id);
             localStorage.setItem("patients", JSON.stringify(updatedPatients));
 
-            // Update the table
-            setTableData(prev => ({
-                ...prev,
-                rows: prev.rows.filter(row => {
-                    // Find if this row corresponds to the deleted patient
-                    const index = prev.rows.indexOf(row);
-                    const storedPatient = storedPatients[index];
-                    return storedPatient && storedPatient.id !== id;
-                })
-            }));
+            // Reload the data
+            loadPatientData();
+
+            // Show alert
+            setAlertInfo({
+                open: true,
+                message: "Patient deleted successfully",
+                color: "error"
+            });
+            setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
         }
     };
 
     return (
         <DashboardLayout>
             <DashboardNavbar />
+
+            {/* Feedback Alert */}
+            <Fade in={alertInfo.open}>
+                <MDBox position="absolute" top="4rem" right="1rem" zIndex={9999} width="100%" maxWidth="25rem">
+                    <MDAlert color={alertInfo.color} dismissible>
+                        {alertInfo.message}
+                    </MDAlert>
+                </MDBox>
+            </Fade>
+
             <MDBox pt={6} pb={3}>
                 <MDBox
                     display="flex"
@@ -183,14 +170,15 @@ function Patients() {
                     </MDTypography>
                     <MDButton
                         variant="gradient"
-                        color="info"
+                        color="warning"
                         startIcon={<Icon>add</Icon>}
                         onClick={handleAddPatient}
+                        sx={{ backgroundColor: "#f29f66" }}
                     >
                         Add New Patient
                     </MDButton>
                 </MDBox>
-                <Card>
+                <Card sx={{ boxShadow: '0 4px 20px 0 rgba(0,0,0,0.1)' }}>
                     <MDBox p={3}>
                         <DataTable
                             table={tableData}
