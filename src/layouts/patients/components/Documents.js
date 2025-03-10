@@ -6,13 +6,12 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    TextField,
-    Button,
     List,
     ListItem,
     ListItemText,
     Divider,
-    IconButton
+    IconButton,
+    Fade
 } from '@mui/material';
 import {
     DescriptionOutlined as DocumentIcon,
@@ -20,10 +19,14 @@ import {
     VisibilityOutlined as PreviewIcon,
     DeleteOutline as DeleteIcon
 } from '@mui/icons-material';
+import Icon from "@mui/material/Icon";
 
+// Material Dashboard 2 PRO React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import MDInput from "components/MDInput";
+import MDAlert from "components/MDAlert";
 
 // Dummy initial documents
 const initialDocuments = [
@@ -52,6 +55,11 @@ function Documents({ patient }) {
     const [newDocument, setNewDocument] = useState({
         name: '',
         file: null
+    });
+    const [alertInfo, setAlertInfo] = useState({
+        open: false,
+        message: "",
+        color: "info"
     });
     const fileInputRef = useRef(null);
 
@@ -90,6 +98,14 @@ function Documents({ patient }) {
             };
             setDocuments([...documents, documentToAdd]);
             handleCloseUploadDialog();
+
+            // Show success alert
+            setAlertInfo({
+                open: true,
+                message: "Document uploaded successfully",
+                color: "success"
+            });
+            setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
         }
     };
 
@@ -105,6 +121,14 @@ function Documents({ patient }) {
             if (selectedDocument?.id === documentToDelete.id) {
                 setSelectedDocument(null);
             }
+
+            // Show alert
+            setAlertInfo({
+                open: true,
+                message: "Document deleted successfully",
+                color: "error"
+            });
+            setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
         }
     };
 
@@ -114,7 +138,16 @@ function Documents({ patient }) {
     };
 
     return (
-        <Grid item xs={12}>
+        <Grid item xs={12} position="relative">
+            {/* Feedback Alert */}
+            <Fade in={alertInfo.open}>
+                <MDBox position="absolute" top="1rem" right="1rem" zIndex={9999} width="100%" maxWidth="25rem">
+                    <MDAlert color={alertInfo.color} dismissible>
+                        {alertInfo.message}
+                    </MDAlert>
+                </MDBox>
+            </Fade>
+
             <Card>
                 <MDBox p={3}>
                     <MDBox display="flex" justifyContent="space-between" alignItems="center" mb={2}>
@@ -123,9 +156,11 @@ function Documents({ patient }) {
                         </MDTypography>
                         <MDButton
                             variant="gradient"
-                            color="info"
+                            color="warning"
                             onClick={handleOpenUploadDialog}
+                            sx={{ backgroundColor: "#f29f66" }}
                         >
+                            <Icon sx={{ mr: 1 }}>upload</Icon>
                             Upload Document
                         </MDButton>
                     </MDBox>
@@ -144,17 +179,25 @@ function Documents({ patient }) {
                                             selected={selectedDocument?.id === document.id}
                                             sx={{
                                                 '&.Mui-selected': {
-                                                    backgroundColor: 'rgba(33, 150, 243, 0.1)', // Light blue background
+                                                    backgroundColor: 'rgba(242, 159, 102, 0.1)', // Light orange/yellow background
                                                     '&:hover': {
-                                                        backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                                                        backgroundColor: 'rgba(242, 159, 102, 0.2)',
                                                     },
                                                 },
                                             }}
                                         >
                                             <DocumentIcon sx={{ mr: 2, color: 'text.secondary' }} />
                                             <ListItemText
-                                                primary={document.name}
-                                                secondary={`${document.type} • ${document.uploadDate}`}
+                                                primary={
+                                                    <MDTypography variant="body2" fontWeight="medium">
+                                                        {document.name}
+                                                    </MDTypography>
+                                                }
+                                                secondary={
+                                                    <MDTypography variant="caption" color="text">
+                                                        {document.type} • {document.uploadDate}
+                                                    </MDTypography>
+                                                }
                                             />
                                             <IconButton
                                                 size="small"
@@ -162,6 +205,7 @@ function Documents({ patient }) {
                                                     e.stopPropagation();
                                                     handlePreviewDocument(document);
                                                 }}
+                                                sx={{ color: "#1A73E8" }}
                                             >
                                                 <PreviewIcon />
                                             </IconButton>
@@ -190,37 +234,49 @@ function Documents({ patient }) {
                                         </MDTypography>
                                         <MDBox>
                                             <MDButton
-                                                variant="gradient"
-                                                color="info"
+                                                variant="outlined"
+                                                color="warning"
                                                 size="small"
                                                 onClick={() => handlePreviewDocument(selectedDocument)}
                                                 sx={{ mr: 1 }}
                                             >
+                                                <Icon sx={{ mr: 1 }}>visibility</Icon>
                                                 Preview
                                             </MDButton>
                                             <MDButton
-                                                variant="gradient"
+                                                variant="outlined"
                                                 color="error"
                                                 size="small"
                                                 onClick={() => handleDeleteDocument(selectedDocument)}
                                             >
+                                                <Icon sx={{ mr: 1 }}>delete</Icon>
                                                 Delete
                                             </MDButton>
                                         </MDBox>
                                     </MDBox>
-                                    <MDBox mb={2}>
-                                        <MDTypography variant="body2">
-                                            <strong>Name:</strong> {selectedDocument.name}
-                                        </MDTypography>
-                                        <MDTypography variant="body2">
-                                            <strong>Type:</strong> {selectedDocument.type}
-                                        </MDTypography>
-                                        <MDTypography variant="body2">
-                                            <strong>Size:</strong> {selectedDocument.size}
-                                        </MDTypography>
-                                        <MDTypography variant="body2">
-                                            <strong>Upload Date:</strong> {selectedDocument.uploadDate}
-                                        </MDTypography>
+                                    <MDBox mb={2} p={2} borderRadius="lg" bgColor="grey.100">
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} md={6}>
+                                                <MDTypography variant="body2">
+                                                    <strong>Name:</strong> {selectedDocument.name}
+                                                </MDTypography>
+                                            </Grid>
+                                            <Grid item xs={12} md={6}>
+                                                <MDTypography variant="body2">
+                                                    <strong>Type:</strong> {selectedDocument.type}
+                                                </MDTypography>
+                                            </Grid>
+                                            <Grid item xs={12} md={6}>
+                                                <MDTypography variant="body2">
+                                                    <strong>Size:</strong> {selectedDocument.size}
+                                                </MDTypography>
+                                            </Grid>
+                                            <Grid item xs={12} md={6}>
+                                                <MDTypography variant="body2">
+                                                    <strong>Upload Date:</strong> {selectedDocument.uploadDate}
+                                                </MDTypography>
+                                            </Grid>
+                                        </Grid>
                                     </MDBox>
                                     {selectedDocument.url && (
                                         <MDBox
@@ -231,15 +287,25 @@ function Documents({ patient }) {
                                             title="Document Preview"
                                             sx={{
                                                 border: '1px solid rgba(0,0,0,0.1)',
-                                                borderRadius: 2
+                                                borderRadius: 2,
+                                                boxShadow: '0 4px 12px 0 rgba(0,0,0,0.05)'
                                             }}
                                         />
                                     )}
                                 </MDBox>
                             ) : (
-                                <MDTypography variant="body2" align="center">
-                                    Select a document to view details
-                                </MDTypography>
+                                <MDBox
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    height="200px"
+                                    borderRadius="lg"
+                                    bgcolor="grey.100"
+                                >
+                                    <MDTypography variant="body2" color="text">
+                                        Select a document to view details
+                                    </MDTypography>
+                                </MDBox>
                             )}
                         </Grid>
                     </Grid>
@@ -250,7 +316,7 @@ function Documents({ patient }) {
             <Dialog open={openUploadDialog} onClose={handleCloseUploadDialog} maxWidth="md" fullWidth>
                 <DialogTitle>Upload New Document</DialogTitle>
                 <DialogContent>
-                    <MDBox mt={2}>
+                    <MDBox component="form" role="form" mt={2}>
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -260,14 +326,15 @@ function Documents({ patient }) {
                         />
                         <MDButton
                             variant="gradient"
-                            color="info"
+                            color="warning"
                             onClick={() => fileInputRef.current.click()}
-                            startIcon={<UploadIcon />}
+                            sx={{ backgroundColor: "#f29f66" }}
                         >
+                            <Icon sx={{ mr: 1 }}>upload_file</Icon>
                             Choose File
                         </MDButton>
                         {newDocument.file && (
-                            <MDBox mt={2}>
+                            <MDBox mt={2} p={2} borderRadius="lg" bgColor="grey.100">
                                 <MDTypography variant="body2">
                                     <strong>Selected File:</strong> {newDocument.name}
                                 </MDTypography>
@@ -277,7 +344,7 @@ function Documents({ patient }) {
                             </MDBox>
                         )}
                         <MDBox mt={2}>
-                            <TextField
+                            <MDInput
                                 fullWidth
                                 label="Document Name"
                                 value={newDocument.name}
@@ -291,17 +358,18 @@ function Documents({ patient }) {
                     </MDBox>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseUploadDialog} color="secondary">
+                    <MDButton onClick={handleCloseUploadDialog} color="secondary">
                         Cancel
-                    </Button>
-                    <Button
+                    </MDButton>
+                    <MDButton
                         onClick={handleUploadDocument}
-                        color="primary"
-                        variant="contained"
+                        color="warning"
+                        variant="gradient"
+                        sx={{ backgroundColor: "#f29f66" }}
                         disabled={!newDocument.file}
                     >
                         Upload
-                    </Button>
+                    </MDButton>
                 </DialogActions>
             </Dialog>
         </Grid>

@@ -6,44 +6,70 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    TextField,
-    Button,
-    List,
-    ListItem,
-    ListItemText,
-    Divider,
-    LinearProgress
+    MenuItem,
+    FormControl,
+    InputLabel,
+    Select,
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    Fade
 } from '@mui/material';
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import MDInput from "components/MDInput";
+import MDAlert from "components/MDAlert";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 
 // Dummy data for consultations
 const initialConsultations = [
     {
         id: '1',
         date: '2023-05-15',
-        doctor: 'Dr. Smith',
-        reason: 'Initial Consultation',
-        notes: 'Patient presented with initial symptoms.',
-        goals: [
-            { name: 'Weight Management', progress: 60 },
-            { name: 'Exercise Routine', progress: 40 },
-            { name: 'Dietary Changes', progress: 75 }
-        ]
+        startTime: '09:00',
+        endTime: '10:00',
+        duration: '60',
+        location: 'Main Clinic',
+        icd10Codes: ['M54.5 - Low back pain', 'M25.5 - Joint pain'],
+        cptCode1: '97112 - Neuromuscular reeducation',
+        cptCode2: '97140 - Manual therapy',
+        otName: 'Dr. Smith',
+        otSignature: 'Smith, OT',
+        shareSOAPNoteTo: 'Beneficiary',
+        notes: 'Patient presented with initial symptoms.'
     },
     {
         id: '2',
         date: '2023-07-20',
-        doctor: 'Dr. Johnson',
-        reason: 'Follow-up',
-        notes: 'Reviewing progress and adjusting treatment plan.',
-        goals: [
-            { name: 'Weight Management', progress: 75 },
-            { name: 'Exercise Routine', progress: 65 },
-            { name: 'Dietary Changes', progress: 85 }
-        ]
+        startTime: '14:00',
+        endTime: '15:00',
+        duration: '60',
+        location: 'East Wing',
+        icd10Codes: ['M54.5 - Low back pain'],
+        cptCode1: '97110 - Therapeutic procedure',
+        cptCode2: '97530 - Activities of daily living',
+        otName: 'Dr. Johnson',
+        otSignature: 'Johnson, OT',
+        shareSOAPNoteTo: 'Other',
+        notes: 'Reviewing progress and adjusting treatment plan.'
     }
+];
+
+// Dropdown data
+const CPT_CODES_1 = [
+    '97110 - Therapeutic procedure',
+    '97112 - Neuromuscular reeducation',
+    '97116 - Gait training'
+];
+
+const CPT_CODES_2 = [
+    '97140 - Manual therapy',
+    '97530 - Activities of daily living',
+    '97535 - Self-care/home management training'
 ];
 
 function Consultations({ patient }) {
@@ -51,25 +77,40 @@ function Consultations({ patient }) {
     const [openNewConsultation, setOpenNewConsultation] = useState(false);
     const [openEditConsultation, setOpenEditConsultation] = useState(false);
     const [selectedConsultation, setSelectedConsultation] = useState(null);
+    const [alertInfo, setAlertInfo] = useState({
+        open: false,
+        message: "",
+        color: "info"
+    });
     const [currentConsultation, setCurrentConsultation] = useState({
         date: '',
-        doctor: '',
-        reason: '',
-        notes: '',
-        goals: []
+        startTime: '',
+        endTime: '',
+        duration: '',
+        location: '',
+        icd10Codes: [],
+        cptCode1: '',
+        cptCode2: '',
+        otName: '',
+        otSignature: '',
+        shareSOAPNoteTo: '',
+        notes: ''
     });
 
     const handleOpenNewConsultation = () => {
         setCurrentConsultation({
             date: '',
-            doctor: '',
-            reason: '',
-            notes: '',
-            goals: [
-                { name: 'Weight Management', progress: 0 },
-                { name: 'Exercise Routine', progress: 0 },
-                { name: 'Dietary Changes', progress: 0 }
-            ]
+            startTime: '',
+            endTime: '',
+            duration: '',
+            location: '',
+            icd10Codes: [],
+            cptCode1: '',
+            cptCode2: '',
+            otName: '',
+            otSignature: '',
+            shareSOAPNoteTo: '',
+            notes: ''
         });
         setOpenNewConsultation(true);
     };
@@ -79,16 +120,35 @@ function Consultations({ patient }) {
     };
 
     const handleSaveNewConsultation = () => {
+        // Basic validation
+        if (!currentConsultation.date || !currentConsultation.otName) {
+            setAlertInfo({
+                open: true,
+                message: "Please fill in all required fields.",
+                color: "warning"
+            });
+            setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
+            return;
+        }
+
         const newConsultationEntry = {
             ...currentConsultation,
             id: Date.now().toString(),
         };
         setConsultations([...consultations, newConsultationEntry]);
         handleCloseNewConsultation();
+
+        // Success alert
+        setAlertInfo({
+            open: true,
+            message: "Consultation added successfully!",
+            color: "success"
+        });
+        setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
     };
 
     const handleOpenEditConsultation = (consultation) => {
-        setCurrentConsultation({...consultation});
+        setCurrentConsultation({ ...consultation });
         setOpenEditConsultation(true);
     };
 
@@ -97,217 +157,400 @@ function Consultations({ patient }) {
     };
 
     const handleSaveEditConsultation = () => {
+        // Basic validation
+        if (!currentConsultation.date || !currentConsultation.otName) {
+            setAlertInfo({
+                open: true,
+                message: "Please fill in all required fields.",
+                color: "warning"
+            });
+            setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
+            return;
+        }
+
         const updatedConsultations = consultations.map(consultation =>
             consultation.id === currentConsultation.id ? currentConsultation : consultation
         );
         setConsultations(updatedConsultations);
         setSelectedConsultation(currentConsultation);
         handleCloseEditConsultation();
+
+        // Success alert
+        setAlertInfo({
+            open: true,
+            message: "Consultation updated successfully!",
+            color: "success"
+        });
+        setTimeout(() => setAlertInfo({ ...alertInfo, open: false }), 3000);
     };
 
     const handleSelectConsultation = (consultation) => {
         setSelectedConsultation(consultation);
     };
 
-    const handleGoalProgressChange = (index, value) => {
-        const updatedGoals = [...currentConsultation.goals];
-        updatedGoals[index].progress = value;
-        setCurrentConsultation({...currentConsultation, goals: updatedGoals});
+    const handleICD10CodeChange = (event) => {
+        const { value } = event.target;
+        setCurrentConsultation(prev => ({
+            ...prev,
+            icd10Codes: typeof value === 'string' ? value.split(',') : value,
+        }));
     };
 
     return (
         <Grid item xs={12}>
-            <Card>
-                <MDBox p={3}>
-                    <MDBox display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                        <MDTypography variant="h5" fontWeight="medium">
-                            Consultations
-                        </MDTypography>
-                        <MDButton
-                            variant="gradient"
-                            color="info"
-                            onClick={handleOpenNewConsultation}
-                        >
-                            Add Consultation
-                        </MDButton>
+            <MDBox position="relative">
+                {/* Alert for feedback */}
+                <Fade in={alertInfo.open}>
+                    <MDBox position="absolute" top="1rem" right="1rem" zIndex={9999} width="100%" maxWidth="25rem">
+                        <MDAlert color={alertInfo.color} dismissible>
+                            {alertInfo.message}
+                        </MDAlert>
                     </MDBox>
-                    <Divider />
-                    <Grid container spacing={3} mt={1}>
-                        <Grid item xs={12} md={5}>
-                            <MDTypography variant="h6" fontWeight="medium" mb={2}>
-                                Consultation History
+                </Fade>
+
+                <Card>
+                    <MDBox p={3}>
+                        <MDBox display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                            <MDTypography variant="h5" fontWeight="medium">
+                                Consultations
                             </MDTypography>
-                            <List>
-                                {consultations.map((consultation) => (
-                                    <React.Fragment key={consultation.id}>
-                                        <ListItem
-                                            button
-                                            onClick={() => handleSelectConsultation(consultation)}
-                                            selected={selectedConsultation?.id === consultation.id}
-                                            sx={{
-                                                '&.Mui-selected': {
-                                                    backgroundColor: 'rgba(33, 150, 243, 0.1)', // Light blue background
-                                                    '&:hover': {
-                                                        backgroundColor: 'rgba(33, 150, 243, 0.2)',
-                                                    },
-                                                },
-                                            }}
-                                        >
-                                            <ListItemText
-                                                primary={consultation.date}
-                                                secondary={`${consultation.doctor} - ${consultation.reason}`}
-                                            />
-                                        </ListItem>
-                                        <Divider />
-                                    </React.Fragment>
-                                ))}
-                            </List>
-                        </Grid>
-                        <Grid item xs={12} md={7}>
-                            {selectedConsultation ? (
-                                <MDBox>
-                                    <MDBox display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                                        <MDTypography variant="h6" fontWeight="medium">
-                                            Consultation Details
-                                        </MDTypography>
-                                        <MDButton
-                                            variant="gradient"
-                                            color="info"
-                                            size="small"
-                                            onClick={() => handleOpenEditConsultation(selectedConsultation)}
-                                        >
-                                            Edit
-                                        </MDButton>
-                                    </MDBox>
-                                    <MDBox mb={2}>
-                                        <MDTypography variant="body2">
-                                            <strong>Date:</strong> {selectedConsultation.date}
-                                        </MDTypography>
-                                        <MDTypography variant="body2">
-                                            <strong>Doctor:</strong> {selectedConsultation.doctor}
-                                        </MDTypography>
-                                        <MDTypography variant="body2">
-                                            <strong>Reason:</strong> {selectedConsultation.reason}
-                                        </MDTypography>
-                                    </MDBox>
-                                    <MDBox mb={2}>
-                                        <MDTypography variant="h6" fontWeight="medium" mb={2}>
-                                            Notes
-                                        </MDTypography>
-                                        <MDTypography variant="body2">
-                                            {selectedConsultation.notes}
-                                        </MDTypography>
-                                    </MDBox>
-                                    <MDBox>
-                                        <MDTypography variant="h6" fontWeight="medium" mb={2}>
-                                            Patient Goals Progress
-                                        </MDTypography>
-                                        {selectedConsultation.goals.map((goal) => (
-                                            <MDBox key={goal.name} mb={2}>
-                                                <MDTypography variant="body2" mb={1}>
-                                                    {goal.name}
-                                                </MDTypography>
-                                                <LinearProgress
-                                                    variant="determinate"
-                                                    value={goal.progress}
-                                                    sx={{
-                                                        height: 10,
-                                                        borderRadius: 5,
-                                                        backgroundColor: 'rgba(33, 150, 243, 0.2)',
-                                                        '& .MuiLinearProgress-bar': {
-                                                            backgroundColor: '#2196f3' // Blue color
-                                                        }
-                                                    }}
-                                                />
-                                            </MDBox>
-                                        ))}
-                                    </MDBox>
-                                </MDBox>
-                            ) : (
-                                <MDTypography variant="body2" align="center">
-                                    Select a consultation to view details
+                            <MDButton
+                                variant="gradient"
+                                color="warning"
+                                sx={{ backgroundColor: "#f29f66" }}
+                                onClick={handleOpenNewConsultation}
+                            >
+                                Add Consultation
+                            </MDButton>
+                        </MDBox>
+                        <Divider />
+                        <Grid container spacing={3} mt={1}>
+                            <Grid item xs={12} md={5}>
+                                <MDTypography variant="h6" fontWeight="medium" mb={2}>
+                                    Consultation History
                                 </MDTypography>
-                            )}
+                                <List>
+                                    {consultations.map((consultation) => (
+                                        <React.Fragment key={consultation.id}>
+                                            <ListItem
+                                                button
+                                                onClick={() => handleSelectConsultation(consultation)}
+                                                selected={selectedConsultation?.id === consultation.id}
+                                                sx={{
+                                                    '&.Mui-selected': {
+                                                        backgroundColor: 'rgba(242, 159, 102, 0.1)',
+                                                        '&:hover': {
+                                                            backgroundColor: 'rgba(242, 159, 102, 0.2)',
+                                                        },
+                                                    },
+                                                }}
+                                            >
+                                                <ListItemText
+                                                    primary={
+                                                        <MDTypography variant="body2" fontWeight="medium">
+                                                            {consultation.date}
+                                                        </MDTypography>
+                                                    }
+                                                    secondary={
+                                                        <MDTypography variant="caption" color="text">
+                                                            {consultation.otName} - {Array.isArray(consultation.icd10Codes) ? consultation.icd10Codes.join(', ') : consultation.icd10Codes}
+                                                        </MDTypography>
+                                                    }
+                                                />
+                                            </ListItem>
+                                            <Divider />
+                                        </React.Fragment>
+                                    ))}
+                                </List>
+                            </Grid>
+                            <Grid item xs={12} md={7}>
+                                {selectedConsultation ? (
+                                    <MDBox>
+                                        <MDBox display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                                            <MDTypography variant="h6" fontWeight="medium">
+                                                Consultation Details
+                                            </MDTypography>
+                                            <MDButton
+                                                variant="gradient"
+                                                color="warning"
+                                                size="small"
+                                                sx={{ backgroundColor: "#f29f66" }}
+                                                onClick={() => handleOpenEditConsultation(selectedConsultation)}
+                                            >
+                                                Edit
+                                            </MDButton>
+                                        </MDBox>
+                                        <MDBox mb={2}>
+                                            <MDTypography variant="body2">
+                                                <strong>Date:</strong> {selectedConsultation.date}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>Start Time:</strong> {selectedConsultation.startTime}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>End Time:</strong> {selectedConsultation.endTime}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>Duration:</strong> {selectedConsultation.duration} minutes
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>ICD-10 Code(s):</strong> {Array.isArray(selectedConsultation.icd10Codes) ? selectedConsultation.icd10Codes.join(', ') : selectedConsultation.icd10Codes}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>CPT Code 1:</strong> {selectedConsultation.cptCode1}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>CPT Code 2:</strong> {selectedConsultation.cptCode2}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>OT Name:</strong> {selectedConsultation.otName}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>Location:</strong> {selectedConsultation.location}
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                <strong>Share SOAP Note:</strong> {selectedConsultation.shareSOAPNoteTo}
+                                            </MDTypography>
+                                        </MDBox>
+                                        <MDBox mb={2}>
+                                            <MDTypography variant="h6" fontWeight="medium" mb={2}>
+                                                Notes
+                                            </MDTypography>
+                                            <MDTypography variant="body2">
+                                                {selectedConsultation.notes}
+                                            </MDTypography>
+                                        </MDBox>
+                                    </MDBox>
+                                ) : (
+                                    <MDTypography variant="body2" align="center">
+                                        Select a consultation to view details
+                                    </MDTypography>
+                                )}
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </MDBox>
-            </Card>
+                    </MDBox>
+                </Card>
+            </MDBox>
 
             {/* New Consultation Dialog */}
             <Dialog open={openNewConsultation} onClose={handleCloseNewConsultation} maxWidth="md" fullWidth>
                 <DialogTitle>Add New Consultation</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 1 }}>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                label="Date"
-                                type="date"
-                                InputLabelProps={{ shrink: true }}
-                                value={currentConsultation.date}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, date: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                label="Doctor"
-                                value={currentConsultation.doctor}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, doctor: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Reason for Consultation"
-                                value={currentConsultation.reason}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, reason: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Notes"
-                                multiline
-                                rows={4}
-                                value={currentConsultation.notes}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, notes: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <MDTypography variant="h6" fontWeight="medium" mb={2}>
-                                Patient Goals Progress
-                            </MDTypography>
-                            {currentConsultation.goals.map((goal, index) => (
-                                <MDBox key={goal.name} mb={2}>
-                                    <MDTypography variant="body2" mb={1}>
-                                        {goal.name}
-                                    </MDTypography>
-                                    <LinearProgress
-                                        variant="determinate"
-                                        value={goal.progress}
-                                        onChange={(e, value) => handleGoalProgressChange(index, value)}
-                                        sx={{
-                                            height: 10,
-                                            borderRadius: 5,
-                                            backgroundColor: 'rgba(33, 150, 243, 0.2)',
-                                            '& .MuiLinearProgress-bar': {
-                                                backgroundColor: '#2196f3' // Blue color
-                                            }
+                    <MDBox component="form" role="form" mt={2}>
+                        <Grid container spacing={3}>
+                            {/* Beneficiary - Prefilled */}
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="Beneficiary"
+                                    value={patient?.name || ""}
+                                    disabled
+                                />
+                            </Grid>
+
+                            {/* Date */}
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="Date"
+                                    type="date"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={currentConsultation.date}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, date: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* ICD-10 Codes */}
+                            <Grid item xs={12}>
+                                <MDInput
+                                    fullWidth
+                                    label="ICD-10 Code(s)"
+                                    value={currentConsultation.icd10Codes}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, icd10Codes: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* Time-related fields */}
+                            <Grid item xs={12} md={4}>
+                                <MDInput
+                                    fullWidth
+                                    label="Start Time"
+                                    type="time"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={currentConsultation.startTime}
+                                    onChange={(e) => {
+                                        const newStartTime = e.target.value;
+                                        setCurrentConsultation(prev => {
+                                            const duration = prev.endTime
+                                                ? calculateDuration(newStartTime, prev.endTime)
+                                                : prev.duration;
+                                            return {
+                                                ...prev,
+                                                startTime: newStartTime,
+                                                duration
+                                            };
+                                        });
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <MDInput
+                                    fullWidth
+                                    label="End Time"
+                                    type="time"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={currentConsultation.endTime}
+                                    onChange={(e) => {
+                                        const newEndTime = e.target.value;
+                                        setCurrentConsultation(prev => {
+                                            const duration = prev.startTime
+                                                ? calculateDuration(prev.startTime, newEndTime)
+                                                : prev.duration;
+                                            return {
+                                                ...prev,
+                                                endTime: newEndTime,
+                                                duration
+                                            };
+                                        });
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <MDInput
+                                    fullWidth
+                                    label="Duration (Min)"
+                                    value={currentConsultation.duration}
+                                    disabled
+                                />
+                            </Grid>
+
+                            {/* CPT Codes */}
+                            <Grid item xs={12} md={6}>
+                                <FormControl fullWidth variant="standard">
+                                    <InputLabel htmlFor="cpt-code-1">CPT Code 1</InputLabel>
+                                    <Select
+                                        value={currentConsultation.cptCode1}
+                                        onChange={(e) => setCurrentConsultation({ ...currentConsultation, cptCode1: e.target.value })}
+                                        label="CPT Code 1"
+                                        inputProps={{
+                                            name: 'cpt-code-1',
+                                            id: 'cpt-code-1',
                                         }}
-                                    />
-                                </MDBox>
-                            ))}
+                                    >
+                                        {CPT_CODES_1.map((code) => (
+                                            <MenuItem key={code} value={code}>{code}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <FormControl fullWidth variant="standard">
+                                    <InputLabel htmlFor="cpt-code-2">CPT Code 2</InputLabel>
+                                    <Select
+                                        value={currentConsultation.cptCode2}
+                                        onChange={(e) => setCurrentConsultation({ ...currentConsultation, cptCode2: e.target.value })}
+                                        label="CPT Code 2"
+                                        inputProps={{
+                                            name: 'cpt-code-2',
+                                            id: 'cpt-code-2',
+                                        }}
+                                    >
+                                        {CPT_CODES_2.map((code) => (
+                                            <MenuItem key={code} value={code}>{code}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+
+                            {/* OT Name and Signature */}
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="OT Name"
+                                    value={currentConsultation.otName}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, otName: e.target.value })}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="OT Signature"
+                                    value={currentConsultation.otSignature}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, otSignature: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* Share SOAP Note */}
+                            <Grid item xs={12}>
+                                <FormControl component="fieldset" fullWidth>
+                                    <MDTypography variant="body2" fontWeight="medium" mb={1}>
+                                        Share SOAP Note
+                                    </MDTypography>
+                                    <FormGroup row>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={currentConsultation.shareSOAPNoteTo === 'Beneficiary'}
+                                                    onChange={() => setCurrentConsultation({
+                                                        ...currentConsultation,
+                                                        shareSOAPNoteTo: currentConsultation.shareSOAPNoteTo === 'Beneficiary' ? '' : 'Beneficiary'
+                                                    })}
+                                                />
+                                            }
+                                            label="Beneficiary"
+                                        />
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={currentConsultation.shareSOAPNoteTo === 'Other'}
+                                                    onChange={() => setCurrentConsultation({
+                                                        ...currentConsultation,
+                                                        shareSOAPNoteTo: currentConsultation.shareSOAPNoteTo === 'Other' ? '' : 'Other'
+                                                    })}
+                                                />
+                                            }
+                                            label="Other"
+                                        />
+                                    </FormGroup>
+                                </FormControl>
+                            </Grid>
+
+                            {/* Location */}
+                            <Grid item xs={12}>
+                                <MDInput
+                                    fullWidth
+                                    label="Location"
+                                    value={currentConsultation.location}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, location: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* Notes */}
+                            <Grid item xs={12}>
+                                <MDInput
+                                    fullWidth
+                                    label="Notes"
+                                    multiline
+                                    rows={4}
+                                    value={currentConsultation.notes}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, notes: e.target.value })}
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </MDBox>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseNewConsultation} color="secondary">
+                    <MDButton onClick={handleCloseNewConsultation} color="secondary">
                         Cancel
-                    </Button>
-                    <Button onClick={handleSaveNewConsultation} color="primary" variant="contained">
+                    </MDButton>
+                    <MDButton
+                        onClick={handleSaveNewConsultation}
+                        color="warning"
+                        variant="gradient"
+                        sx={{ backgroundColor: "#f29f66" }}
+                    >
                         Save Consultation
-                    </Button>
+                    </MDButton>
                 </DialogActions>
             </Dialog>
 
@@ -315,81 +558,241 @@ function Consultations({ patient }) {
             <Dialog open={openEditConsultation} onClose={handleCloseEditConsultation} maxWidth="md" fullWidth>
                 <DialogTitle>Edit Consultation</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 1 }}>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                label="Date"
-                                type="date"
-                                InputLabelProps={{ shrink: true }}
-                                value={currentConsultation.date}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, date: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                label="Doctor"
-                                value={currentConsultation.doctor}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, doctor: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Reason for Consultation"
-                                value={currentConsultation.reason}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, reason: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Notes"
-                                multiline
-                                rows={4}
-                                value={currentConsultation.notes}
-                                onChange={(e) => setCurrentConsultation({...currentConsultation, notes: e.target.value})}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <MDTypography variant="h6" fontWeight="medium" mb={2}>
-                                Patient Goals Progress
-                            </MDTypography>
-                            {currentConsultation.goals.map((goal, index) => (
-                                <MDBox key={goal.name} mb={2}>
-                                    <MDTypography variant="body2" mb={1}>
-                                        {goal.name}
-                                    </MDTypography>
-                                    <LinearProgress
-                                        variant="determinate"
-                                        value={goal.progress}
-                                        onChange={(e, value) => handleGoalProgressChange(index, value)}
-                                        sx={{
-                                            height: 10,
-                                            borderRadius: 5,
-                                            backgroundColor: 'rgba(33, 150, 243, 0.2)',
-                                            '& .MuiLinearProgress-bar': {
-                                                backgroundColor: '#2196f3' // Blue color
-                                            }
+                    <MDBox component="form" role="form" mt={2}>
+                        <Grid container spacing={3}>
+                            {/* Beneficiary - Prefilled */}
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="Beneficiary"
+                                    value={patient?.name || ""}
+                                    disabled
+                                />
+                            </Grid>
+
+                            {/* Date */}
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="Date"
+                                    type="date"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={currentConsultation.date}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, date: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* ICD-10 Codes */}
+                            <Grid item xs={12}>
+                                <MDInput
+                                    fullWidth
+                                    label="ICD-10 Code(s)"
+                                    value={currentConsultation.icd10Codes}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, icd10Codes: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* Time-related fields */}
+                            <Grid item xs={12} md={4}>
+                                <MDInput
+                                    fullWidth
+                                    label="Start Time"
+                                    type="time"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={currentConsultation.startTime}
+                                    onChange={(e) => {
+                                        const newStartTime = e.target.value;
+                                        setCurrentConsultation(prev => {
+                                            const duration = prev.endTime
+                                                ? calculateDuration(newStartTime, prev.endTime)
+                                                : prev.duration;
+                                            return {
+                                                ...prev,
+                                                startTime: newStartTime,
+                                                duration
+                                            };
+                                        });
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <MDInput
+                                    fullWidth
+                                    label="End Time"
+                                    type="time"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={currentConsultation.endTime}
+                                    onChange={(e) => {
+                                        const newEndTime = e.target.value;
+                                        setCurrentConsultation(prev => {
+                                            const duration = prev.startTime
+                                                ? calculateDuration(prev.startTime, newEndTime)
+                                                : prev.duration;
+                                            return {
+                                                ...prev,
+                                                endTime: newEndTime,
+                                                duration
+                                            };
+                                        });
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <MDInput
+                                    fullWidth
+                                    label="Duration (Min)"
+                                    value={currentConsultation.duration}
+                                    disabled
+                                />
+                            </Grid>
+
+                            {/* CPT Codes */}
+                            <Grid item xs={12} md={6}>
+                                <FormControl fullWidth variant="standard">
+                                    <InputLabel htmlFor="edit-cpt-code-1">CPT Code 1</InputLabel>
+                                    <Select
+                                        value={currentConsultation.cptCode1}
+                                        onChange={(e) => setCurrentConsultation({ ...currentConsultation, cptCode1: e.target.value })}
+                                        label="CPT Code 1"
+                                        inputProps={{
+                                            name: 'edit-cpt-code-1',
+                                            id: 'edit-cpt-code-1',
                                         }}
-                                    />
-                                </MDBox>
-                            ))}
+                                    >
+                                        {CPT_CODES_1.map((code) => (
+                                            <MenuItem key={code} value={code}>{code}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <FormControl fullWidth variant="standard">
+                                    <InputLabel htmlFor="edit-cpt-code-2">CPT Code 2</InputLabel>
+                                    <Select
+                                        value={currentConsultation.cptCode2}
+                                        onChange={(e) => setCurrentConsultation({ ...currentConsultation, cptCode2: e.target.value })}
+                                        label="CPT Code 2"
+                                        inputProps={{
+                                            name: 'edit-cpt-code-2',
+                                            id: 'edit-cpt-code-2',
+                                        }}
+                                    >
+                                        {CPT_CODES_2.map((code) => (
+                                            <MenuItem key={code} value={code}>{code}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+
+                            {/* OT Name and Signature */}
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="OT Name"
+                                    value={currentConsultation.otName}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, otName: e.target.value })}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <MDInput
+                                    fullWidth
+                                    label="OT Signature"
+                                    value={currentConsultation.otSignature}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, otSignature: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* Share SOAP Note */}
+                            <Grid item xs={12}>
+                                <FormControl component="fieldset" fullWidth>
+                                    <MDTypography variant="body2" fontWeight="medium" mb={1}>
+                                        Share SOAP Note
+                                    </MDTypography>
+                                    <FormGroup row>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={currentConsultation.shareSOAPNoteTo === 'Beneficiary'}
+                                                    onChange={() => setCurrentConsultation({
+                                                        ...currentConsultation,
+                                                        shareSOAPNoteTo: currentConsultation.shareSOAPNoteTo === 'Beneficiary' ? '' : 'Beneficiary'
+                                                    })}
+                                                />
+                                            }
+                                            label="Beneficiary"
+                                        />
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={currentConsultation.shareSOAPNoteTo === 'Other'}
+                                                    onChange={() => setCurrentConsultation({
+                                                        ...currentConsultation,
+                                                        shareSOAPNoteTo: currentConsultation.shareSOAPNoteTo === 'Other' ? '' : 'Other'
+                                                    })}
+                                                />
+                                            }
+                                            label="Other"
+                                        />
+                                    </FormGroup>
+                                </FormControl>
+                            </Grid>
+
+                            {/* Location */}
+                            <Grid item xs={12}>
+                                <MDInput
+                                    fullWidth
+                                    label="Location"
+                                    value={currentConsultation.location}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, location: e.target.value })}
+                                />
+                            </Grid>
+
+                            {/* Notes */}
+                            <Grid item xs={12}>
+                                <MDInput
+                                    fullWidth
+                                    label="Notes"
+                                    multiline
+                                    rows={4}
+                                    value={currentConsultation.notes}
+                                    onChange={(e) => setCurrentConsultation({ ...currentConsultation, notes: e.target.value })}
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </MDBox>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseEditConsultation} color="secondary">
+                    <MDButton onClick={handleCloseEditConsultation} color="secondary">
                         Cancel
-                    </Button>
-                    <Button onClick={handleSaveEditConsultation} color="primary" variant="contained">
+                    </MDButton>
+                    <MDButton
+                        onClick={handleSaveEditConsultation}
+                        color="warning"
+                        variant="gradient"
+                        sx={{ backgroundColor: "#f29f66" }}
+                    >
                         Save Changes
-                    </Button>
+                    </MDButton>
                 </DialogActions>
             </Dialog>
         </Grid>
     );
+}
+
+function calculateDuration(startTime, endTime) {
+    // Split times into hours and minutes
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+    // Calculate total minutes
+    let durationMinutes = (endHours * 60 + endMinutes) - (startHours * 60 + startMinutes);
+
+    // Handle cases crossing midnight
+    if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+    }
+
+    return durationMinutes.toString();
 }
 
 export default Consultations;

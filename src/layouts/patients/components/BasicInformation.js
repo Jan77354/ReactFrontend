@@ -2,7 +2,8 @@ import React from 'react';
 import {
     Grid,
     Card,
-    Divider
+    Divider,
+    Icon
 } from "@mui/material";
 
 // Material Dashboard 2 PRO React components
@@ -21,55 +22,89 @@ function BasicInformation({ patient, onEdit }) {
                         </MDTypography>
                         <MDButton
                             variant="gradient"
-                            color="info"
+                            color="warning"
                             size="small"
                             onClick={onEdit}
+                            sx={{ backgroundColor: "#f29f66" }}
                         >
+                            <Icon sx={{ mr: 1 }}>edit</Icon>
                             Edit
                         </MDButton>
                     </MDBox>
                     <Divider />
-                    <MDBox mt={2}>
-                        <Grid container spacing={2}>
+                    <MDBox mt={3}>
+                        <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
-                                <MDTypography variant="h6" color="text" mb={1}>
-                                    First Name
-                                </MDTypography>
-                                <MDTypography variant="body2">
-                                    {patient.firstName || "N/A"}
-                                </MDTypography>
+                                <MDBox
+                                    p={2}
+                                    borderRadius="lg"
+                                    bgColor="grey.100"
+                                    height="100%"
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                >
+                                    <MDTypography variant="caption" color="text" fontWeight="bold" textTransform="uppercase">
+                                        Name
+                                    </MDTypography>
+                                    <MDTypography variant="body1" fontWeight="regular">
+                                        {patient.name || "N/A"}
+                                    </MDTypography>
+                                </MDBox>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <MDTypography variant="h6" color="text" mb={1}>
-                                    Last Name
-                                </MDTypography>
-                                <MDTypography variant="body2">
-                                    {patient.lastName || "N/A"}
-                                </MDTypography>
+                                <MDBox
+                                    p={2}
+                                    borderRadius="lg"
+                                    bgColor="grey.100"
+                                    height="100%"
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                >
+                                    <MDTypography variant="caption" color="text" fontWeight="bold" textTransform="uppercase">
+                                        Email
+                                    </MDTypography>
+                                    <MDTypography variant="body1" fontWeight="regular">
+                                        {patient.email || "N/A"}
+                                    </MDTypography>
+                                </MDBox>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <MDTypography variant="h6" color="text" mb={1}>
-                                    Email
-                                </MDTypography>
-                                <MDTypography variant="body2">
-                                    {patient.email || "N/A"}
-                                </MDTypography>
+                                <MDBox
+                                    p={2}
+                                    borderRadius="lg"
+                                    bgColor="grey.100"
+                                    height="100%"
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                >
+                                    <MDTypography variant="caption" color="text" fontWeight="bold" textTransform="uppercase">
+                                        Phone
+                                    </MDTypography>
+                                    <MDTypography variant="body1" fontWeight="regular">
+                                        {patient.phone || "N/A"}
+                                    </MDTypography>
+                                </MDBox>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <MDTypography variant="h6" color="text" mb={1}>
-                                    Phone
-                                </MDTypography>
-                                <MDTypography variant="body2">
-                                    {patient.phone || "N/A"}
-                                </MDTypography>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <MDTypography variant="h6" color="text" mb={1}>
-                                    Date of Birth
-                                </MDTypography>
-                                <MDTypography variant="body2">
-                                    {patient.dateOfBirth || "N/A"}
-                                </MDTypography>
+                                <MDBox
+                                    p={2}
+                                    borderRadius="lg"
+                                    bgColor="grey.100"
+                                    height="100%"
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                >
+                                    <MDTypography variant="caption" color="text" fontWeight="bold" textTransform="uppercase">
+                                        Date of Birth
+                                    </MDTypography>
+                                    <MDTypography variant="body1" fontWeight="regular">
+                                        {patient.dateOfBirth || "N/A"}
+                                    </MDTypography>
+                                </MDBox>
                             </Grid>
                         </Grid>
                     </MDBox>
